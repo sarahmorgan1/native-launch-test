@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Native launch test</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;padding:24px;background:#f6f3ef;color:#243937;font:18px/1.5 system-ui,sans-serif}
+    main{max-width:480px;margin:32px auto}h1{font-size:28px;line-height:1.2}a{display:flex;align-items:center;justify-content:center;min-height:72px;margin:20px 0;padding:16px;border-radius:14px;background:#28665e;color:white;text-align:center;text-decoration:none;font-weight:700}
+    a:focus-visible{outline:4px solid #c9832d;outline-offset:4px}.secondary{background:#e1e9e5;color:#243937}.note{font-size:15px}a[hidden]{display:none}
+  </style>
+</head>
+<body><main>
+  <h1>Native launch test</h1>
+  <p>This parent diagnostic opens one installed test app. It does not play videos or install anything.</p>
+  <a id="scheme-link" href="frankietv-test://open/launch">Open installation test</a>
+  <a id="intent-link" class="secondary" hidden>Try Android intent link</a>
+  <noscript><p class="note">The second check needs JavaScript. The first button can still be tested.</p></noscript>
+  <p class="note">If the browser blocks a button, stop and record the result. Keep existing browser protections in place.</p>
+  <p class="note">No accounts, media, forms, analytics, third-party assets or automatic launch redirects are included in this page.</p>
+</main>
+<script>
+  // Explicit user tap only. Failure stays on this host, with no app-store fallback.
+  if (location.protocol === 'https:' || location.protocol === 'http:') {
+    const fallback = new URL('not-opened.html', location.href);
+    if (fallback.origin === location.origin) {
+      const link = document.getElementById('intent-link');
+      link.href = 'intent://open/launch#Intent;scheme=frankietv-test;package=tv.frankie.installprobe;S.browser_fallback_url=' + encodeURIComponent(fallback.href) + ';end';
+      link.hidden = false;
+    }
+  }
+</script>
+</body></html>
